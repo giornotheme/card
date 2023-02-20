@@ -7,22 +7,70 @@
 </head>
 
 <body>
-    <div class="screen-center border-solid-default">
-        <div class="container-column-center padding-default">
-            <h2>Sign in</h2>
-            <div>
-                <label>Username:</label>
-                <input type="text" />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input type="password" />
-            </div>
-        </div>
-        <div class="container-row-center padding-default">
-            <input type="button" value="Ok">
-        </div>
+    <p th:text="'Game id : ' + ${gameId}"></p><br>
+    <p th:text="'Nombre de cartes dans le deck : ' + ${deck.size()}"></p>
+    <tbody>
+        <tr>
+            <td>Ordre aléatoire des couleurs : </td>
+        </tr>
+        <tr th:each="color: ${colorOrder}">
+            <td th:text="${color}" />
+        </tr>
+    </tbody>
+    <br>
+    <tbody>
+        <tr>
+            <td>Ordre aléatoire des valeurs : </td>
+        </tr>
+        <tr th:each="value: ${valueOrder}">
+            <td th:text="${value}" />
+        </tr>
+    </tbody>
+    <br>
 
-    </div>
+    <form th:action="@{/draw/{id}(id=${gameId})}" method="post">
+        <table>
+            <tr>
+                <td>Cards to draw : </td>
+                <td><input type="number" th:name="numberOfCards" min="0" value="10" /></td>
+            </tr>
+            <tr>
+                <td><input type="hidden" th:value="${gameId}" th:name="id" /></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Piocher" /></td>
+            </tr>
+        </table>
+    </form>
+
+
+    <table th:if="${deck.size() < 52}">
+        <tr>
+            <td>Votre main non ordonée : </td>
+        </tr>
+        <tr th:each="card: ${existingHand.getShuffledCards()}">
+            <td th:text="${card.value} + ' DE ' + ${card.color}" />
+        </tr>
+    </table>
+    <br>
+    <table>
+        <tr>
+            <td>Votre main ordonée: </td>
+        </tr>
+        <tr th:each="card: ${existingHand.getSortedCards()}">
+            <td th:text="${card.value} + ' DE ' + ${card.color}" />
+        </tr>
+    </table>
+
+
+    <form th:if="${!existingHand.getShuffledCards().isEmpty()}" th:action="@{/sort/{id}(id=${gameId})}" method="post">
+        <input type="hidden" th:value="${gameId}" th:name="id" />
+        <input type="submit" value="Trier" />
+    </form>
+
+    <form th:if="${!existingHand.getSortedCards().isEmpty()}" th:action="@{/}" method="get">
+        <input type="submit" value="Rejouer" />
+    </form>
+
 
 </body>

@@ -2,18 +2,18 @@ package com.victor.model;
 
 public class Card {
 
-    public enum CardNumber {
-        TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6), SEVEN(7),
-        EIGHT(8), NINE(9), TEN(10), JACK(11), QUEEN(12), KING(13),
-        ACE(14);
+    public enum CardValues {
+        DEUX(2), TROIS(3), QUATRE(4), CINQ(5), SIX(6), SEPT(7),
+        HUIT(8), NEUF(9), DIX(10), VALET(11), DAME(12), ROI(13),
+        AS(14);
 
         private int number;
 
-        private CardNumber(int i) {
+        private CardValues(int i) {
             this.number = i;
         }
 
-        public int getNumber() {
+        public int getValue() {
             return number;
         }
     }
@@ -21,22 +21,21 @@ public class Card {
     public enum CardColor {
         PIQUE, CARREAU, COEUR, TREFLE;
     }
-    
-    private final CardNumber value;
-    private final CardColor color;
-    // private final String rank;
 
-    public Card(CardNumber value, CardColor color) {
+    private final CardValues value;
+    private final CardColor color;
+
+    public Card(CardValues value, CardColor color) {
         this.value = value;
         this.color = color;
     }
 
-    public CardNumber getValue() {
+    public CardValues getValue() {
         return value;
     }
 
     public CardColor getColor() {
         return color;
     }
-    
+
 }
