@@ -52,12 +52,23 @@ public class GameController {
 
         Game game = gameService.getGameById(id);
         if (game == null) {
-            model.addAttribute("error", "game introuvable");
             return startGame(model);
         }
 
         List<Card> deck = game.getDeck();
+
         Hand existingHand = game.getHand();
+
+        if (numberOfCards > deck.size() || numberOfCards == 0) {
+            model.addAttribute("error", "erreur");
+            model.addAttribute("existingHand", existingHand);
+            model.addAttribute("deck", deck);
+            model.addAttribute("game", game);
+            model.addAttribute("gameId", game.getId().toString());
+            model.addAttribute("colorOrder", game.getColorOrder());
+            model.addAttribute("valueOrder", game.getValueOrder());
+            return "game";
+        }
 
         existingHand = gameService.drawCards(deck, existingHand, numberOfCards);
 
@@ -76,7 +87,6 @@ public class GameController {
 
         Game game = gameService.getGameById(id);
         if (game == null) {
-            model.addAttribute("error", "game introuvable");
             return startGame(model);
         }
 

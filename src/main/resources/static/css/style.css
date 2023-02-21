@@ -1,0 +1,84 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.card {
+    height: 120px;
+    width: 80px;
+    border: 2px solid black;
+    border-radius: 3px;
+    margin: 2px;
+    padding: 2px;
+}
+
+.container-column-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-row-center {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.border-solid-default {
+    border: black 1px solid;
+}
+
+.margin-default {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.padding-default {
+    padding-top: 5px;
+    padding-bottom: 10px;
+    padding-left: 13px;
+    padding-right: 13px;
+}
+
+.margin-side-medium {
+    margin-left: 11%;
+    margin-right: 11%;
+}
+
+.error {
+    color: red;
+}
+
+
+#hideMe {
+    -moz-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 5s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+@keyframes cssAnimation {
+    to {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+}
+
+@-webkit-keyframes cssAnimation {
+    to {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
+}

@@ -52,7 +52,7 @@ public class TestGameController {
 
     @Test
     public void testGetGameByIdKO() throws Exception {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             gameService.initGame();
         }
 
@@ -83,7 +83,7 @@ public class TestGameController {
 
     @Test
     public void testDeleteGameKO() throws Exception {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             gameService.initGame();
         }
 

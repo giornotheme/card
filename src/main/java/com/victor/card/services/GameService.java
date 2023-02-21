@@ -46,12 +46,12 @@ public class GameService {
     }
 
     public Hand drawCards(List<Card> deck, Hand existingHand, int numberOfCards) {
-        if (deck.size() == 0 || numberOfCards == 0 || numberOfCards > deck.size() || existingHand == null) {
-            return null;
+        if (deck.isEmpty() || numberOfCards == 0 || numberOfCards > deck.size()) {
+            return existingHand;
         }
         for (int i = 0; i < numberOfCards; i++) {
-            existingHand.getShuffledCards().add(deck.get(i));
-            deck.remove(deck.get(i));
+            existingHand.getShuffledCards().add(deck.get(0));
+            deck.remove(deck.get(0));
         }
         return existingHand;
     }
