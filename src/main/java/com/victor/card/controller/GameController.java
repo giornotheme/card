@@ -1,6 +1,7 @@
 package com.victor.card.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,10 +51,12 @@ public class GameController {
     public String drawCards(@RequestParam int numberOfCards, Model model,
             @PathVariable String id) {
 
-        Game game = gameService.getGameById(id);
-        if (game == null) {
+        Optional<Game> optionalGame = gameService.getGameById(id);
+        if (optionalGame.isEmpty()) {
             return startGame(model);
         }
+
+        Game game = optionalGame.get();
 
         List<Card> deck = game.getDeck();
 
@@ -85,13 +88,15 @@ public class GameController {
     @PostMapping("/sort/{id}")
     public String sortCards(Model model, @PathVariable String id) {
 
-        Game game = gameService.getGameById(id);
-        if (game == null) {
+        Optional<Game> optionalGame = gameService.getGameById(id);
+        if (optionalGame.isEmpty()) {
             return startGame(model);
         }
 
-        List<Card> deck = game.getDeck();
-        Hand existingHand = game.getHand();
+        Game game = optionalGame.get();
+
+        List<Card> deck = optionalGame.map(Game::getDeck).orElse(null);
+        Hand existingHand = optionalGame.map(Game::getHand).orElse(null);
 
         existingHand = gameService.rankCardsByColorAndValues(existingHand, game.getColorOrder(),
                 game.getValueOrder());
@@ -109,22 +114,23 @@ public class GameController {
     @GetMapping("/game/{id}")
     @ResponseBody
     public ResponseEntity<?> getGameById(@PathVariable String id) {
-        Game game = gameService.getGameById(id);
-
-        if (game == null) {
+        Optional<Game> optionalGame = gameService.getGameById(id);
+        if (optionalGame.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Game with ID " + id + " not found");
         }
-        return ResponseEntity.ok().body(game);
+
+        return ResponseEntity.ok().body(optionalGame.get());
     }
 
     @DeleteMapping("/game/{id}")
     @ResponseBody
     public ResponseEntity<?> deleteGameById(@PathVariable String id) {
-        Game game = gameService.getGameById(id);
-        if (game == null) {
+        Optional<Game> optionalGame = gameService.getGameById(id);
+        if (optionalGame.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Game with ID " + id + " not found");
         }
-        gameService.deleteGame(game);
+
+        gameService.deleteGame(optionalGame.get());
         return ResponseEntity.ok().body("Successful delete");
     }
 }

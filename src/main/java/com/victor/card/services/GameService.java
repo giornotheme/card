@@ -3,6 +3,7 @@ package com.victor.card.services;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -88,17 +89,17 @@ public class GameService {
         return gamesDatabase.size();
     }
 
-    public Game getGameById(String id) {
+    public Optional<Game> getGameById(String id) {
         if (gamesDatabase.isEmpty()) {
-            return null;
+            return Optional.empty();
         }
 
         for (Game game : gamesDatabase) {
             if (game.getId().toString().equals(id)) {
-                return game;
+                return Optional.of(game);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public void deleteGame(Game game) {
