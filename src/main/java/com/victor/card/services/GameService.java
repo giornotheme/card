@@ -50,6 +50,16 @@ public class GameService {
         if (deck.isEmpty() || numberOfCards == 0 || numberOfCards > deck.size()) {
             return existingHand;
         }
+
+        // Example of an async draw
+        // Thread asyncDraw = new Thread(() -> {
+        //     for (int i = 0; i < numberOfCards; i++) {
+        //         existingHand.getShuffledCards().add(deck.get(0));
+        //         deck.remove(deck.get(0));
+        //     }
+        // });
+        // asyncDraw.start();
+        
         for (int i = 0; i < numberOfCards; i++) {
             existingHand.getShuffledCards().add(deck.get(0));
             deck.remove(deck.get(0));

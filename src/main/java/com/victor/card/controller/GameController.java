@@ -72,7 +72,7 @@ public class GameController {
             model.addAttribute("valueOrder", game.getValueOrder());
             return "game";
         }
-
+        
         existingHand = gameService.drawCards(deck, existingHand, numberOfCards);
 
         model.addAttribute("existingHand", existingHand);
