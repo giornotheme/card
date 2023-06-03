@@ -1,32 +1,31 @@
 package com.victor.card.services;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.victor.model.Card;
 import com.victor.model.Card.CardColor;
 import com.victor.model.Card.CardValues;
 import com.victor.model.Game;
 import com.victor.model.Hand;
 import com.victor.utils.CardUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GameService {
 
-    private List<Game> gamesDatabase = new ArrayList<Game>();
+    private final List<Game> gamesDatabase = new ArrayList<>();
 
     public Game initGame() {
         Game game = new Game();
 
-        List<Card> deck = new ArrayList<Card>();
+        List<Card> deck = new ArrayList<>();
 
         Hand hand = new Hand();
-        List<Card> shuffledCards = new ArrayList<Card>();
-        List<Card> sortedCards = new ArrayList<Card>();
+        List<Card> shuffledCards = new ArrayList<>();
+        List<Card> sortedCards = new ArrayList<>();
         hand.setShuffledCards(shuffledCards);
         hand.setSortedCards(sortedCards);
 
@@ -40,7 +39,7 @@ public class GameService {
     }
 
     public List<Card> createDeck(List<Card> deck) {
-        List<Card> generateAllCards = new ArrayList<Card>();
+        List<Card> generateAllCards;
         generateAllCards = CardUtils.initDeck(deck);
         Collections.shuffle(generateAllCards);
         return generateAllCards;
@@ -71,21 +70,21 @@ public class GameService {
             List<CardValues> valueOrder) {
 
         // On trie d'abord la main en fonction des valeurs
-        List<Card> newHandByValues = new ArrayList<Card>();
-        for (int i = 0; i < valueOrder.size(); i++) {
+        List<Card> newHandByValues = new ArrayList<>();
+        for (CardValues cardValues : valueOrder) {
             for (int j = 0; j < hand.getShuffledCards().size(); j++) {
-                if (hand.getShuffledCards().get(j).getValue() == valueOrder.get(i)) {
+                if (hand.getShuffledCards().get(j).getValue() == cardValues) {
                     newHandByValues.add(hand.getShuffledCards().get(j));
                 }
             }
         }
 
         // Puis on retrie la main en fonction des couleurs
-        List<Card> finalHand = new ArrayList<Card>();
-        for (int i = 0; i < colorOrder.size(); i++) {
-            for (int j = 0; j < newHandByValues.size(); j++) {
-                if (newHandByValues.get(j).getColor() == colorOrder.get(i)) {
-                    finalHand.add(newHandByValues.get(j));
+        List<Card> finalHand = new ArrayList<>();
+        for (CardColor cardColor : colorOrder) {
+            for (Card newHandByValue : newHandByValues) {
+                if (newHandByValue.getColor() == cardColor) {
+                    finalHand.add(newHandByValue);
                 }
             }
         }
@@ -114,6 +113,9 @@ public class GameService {
 
     public void deleteGame(Game game) {
         gamesDatabase.remove(game);
+    }
+    public void deleteAllGame() {
+        gamesDatabase.clear();
     }
 
     public List<Game> getAllGames() {

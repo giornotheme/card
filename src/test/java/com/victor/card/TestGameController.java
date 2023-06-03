@@ -1,6 +1,10 @@
 package com.victor.card;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.victor.card.services.GameService;
+import com.victor.model.Game;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -9,10 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.victor.card.services.GameService;
-import com.victor.model.Game;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -27,6 +27,10 @@ public class TestGameController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @BeforeEach
+    public void setup(){
+        gameService.deleteAllGame();
+    }
     @Test
     public void testGetGameByIdOK() throws Exception {
         for (int i = 0; i < 4; i++) {
